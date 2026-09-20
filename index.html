@@ -117,19 +117,16 @@ button{
   min-width: 0;
 }
 
-.logo{
+.logo {
   width: 52px;
   height: 52px;
   border-radius: 50%;
-  position: relative;
-  overflow: hidden;
-  flex: 0 0 auto;
-  background:
-    radial-gradient(circle at 30% 30%, #d7b08a 0%, #b67d4e 38%, #7f5536 100%);
+  object-fit: cover;
+  cursor: pointer;
+  border: 2px solid rgba(255,255,255,0.5);
   box-shadow:
     inset 0 2px 10px rgba(255,255,255,0.25),
     0 10px 25px rgba(121,78,44,0.28);
-  border: 2px solid rgba(255,255,255,0.5);
 }
 
 .logo::before{
@@ -602,13 +599,13 @@ main{
     <div class="container">
       <div class="topbar">
         <header class="header stagger-1" aria-label="Header utama">
-          <a href="#" class="brand" aria-label="RENOVASI RUMAH BATAM">
-            <div class="logo" aria-hidden="true"></div>
-            <div class="brand-copy">
-              <span class="eyebrow">JASA</span>
-              <div class="brand-title">RENOVASI RUMAH BATAM</div>
-            </div>
-          </a>
+          <a href="#" class="brand" aria-label="RENOVASI RUMAH" id="adminLogo">
+  <img src="logo.png" alt="Logo Renovasi Rumah" class="logo" />
+  <div class="brand-copy">
+    <span class="eyebrow">JASA</span>
+    <div class="brand-title">RENOVASI RUMAH BATAM</div>
+  </div>
+  </a>
 
           <button class="menu-toggle" id="menuToggle" aria-label="Buka menu navigasi" aria-expanded="false" aria-controls="navDrawer">
             <div class="hamburger" aria-hidden="true">
@@ -811,6 +808,43 @@ main{
         }
       });
     }
-  </script>
+
+const adminLogo = document.getElementById('adminLogo');
+let clickCount = 0;
+let clickTimer = null;
+
+adminLogo.addEventListener('click', (e) => {
+  e.preventDefault();
+  clickCount++;
+
+  if (clickCount === 5) {
+    clickCount = 0;
+    openAdminLogin();
+  }
+
+  clearTimeout(clickTimer);
+  clickTimer = setTimeout(() => {
+    clickCount = 0;
+  }, 2000); // reset hitungan jika jeda klik lebih dari 2 detik
+});
+
+function openAdminLogin() {
+  // Tampilkan halaman login admin (bisa modal atau redirect)
+  // Contoh sederhana menggunakan prompt:
+  const password = prompt('Masukkan password admin:');
+  if (password === 'admin123') { // ganti dengan sistem autentikasi yang lebih aman
+    showAdminPanel();
+  } else {
+    alert('Password salah!');
+  }
+}
+
+function showAdminPanel() {
+  // Contoh sederhana: tampilkan panel admin di halaman
+  // Kamu bisa buat modal atau halaman baru sesuai kebutuhan
+  alert('Selamat datang di panel admin! Di sini admin bisa hapus ulasan, upload, hapus foto.');
+  // Implementasi fitur hapus ulasan, upload, hapus foto bisa dibuat terpisah
+}
+</script>
 </body>
 </html>
