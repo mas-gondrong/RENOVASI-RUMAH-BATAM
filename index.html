@@ -282,22 +282,30 @@ main{
   gap: 18px;
 }
 
-.banner{
+.banner {
+  background-image: url('banner.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  /* Bisa juga menambahkan overlay warna transparan agar teks tetap terbaca */
   position: relative;
-  min-height: clamp(260px, 54vw, 560px);
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  box-shadow: var(--shadow);
-  border: 1px solid rgba(255,255,255,0.45);
-  background:
-    linear-gradient(120deg, rgba(47,36,28,0.65), rgba(47,36,28,0.15)),
-    linear-gradient(180deg, rgba(255,255,255,0.05), rgba(0,0,0,0.1)),
-    linear-gradient(135deg, #d9b28c 0%, #c48d5b 28%, #9a6a45 58%, #5c3c26 100%);
-  isolation: isolate;
-  padding: 24px 24px 32px 24px; /* beri padding agar teks tidak menempel pinggir */
-  color: #f5efe7;
+  color: #f5efe7; /* sesuaikan warna teks agar kontras */
 }
 
+.banner::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.15); /* overlay cahaya lembut */
+  pointer-events: none;
+  z-index: 1;
+}
+
+.banner > * {
+  position: relative;
+  z-index: 2; /* agar konten di atas overlay */
+}
+    
 .hero h1 {
   font-family: "Cormorant Garamond", serif;
   font-size: clamp(1.2rem, 4vw, 2rem);
