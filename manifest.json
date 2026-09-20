@@ -1,20 +1,21 @@
 {
   "name": "RENOVASI RUMAH BATAM",
   "short_name": "Renovasi Batam",
-  "start_url": "/RENOVASI-RUMAH-BATAM/index.html",
+  "start_url": "./index.html",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#f5efe7",
   "theme_color": "#8b5e3c",
   "description": "Aplikasi PWA jasa renovasi rumah modern dan responsif di Batam.",
   "icons": [
     {
-      "src": "/RENOVASI-RUMAH-BATAM/logo_192.png",
+      "src": "logo_192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/RENOVASI-RUMAH-BATAM/logo_512.png",
+      "src": "logo_512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
