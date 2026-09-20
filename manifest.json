@@ -8,13 +8,13 @@
   "description": "Aplikasi PWA jasa renovasi rumah modern dan responsif di Batam.",
     "icons": [
     {
-      "src": "./logo_192.png",
+      "src": "logo_192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "./logo_512.png",
+      "src": "logo_512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
