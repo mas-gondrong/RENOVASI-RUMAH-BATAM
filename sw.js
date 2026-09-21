@@ -1,4 +1,4 @@
-const CACHE_NAME = 'renovasi-rumah-batam-v10';
+const CACHE_NAME = 'renovasi-rumah-batam-v11';
 const urlsToCache = [
   './',
   './index.html',
