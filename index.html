@@ -920,6 +920,178 @@ body {
 .btn-detail-cta:active {
   transform: scale(0.97);
 }
+
+    /* ======================================================== */
+/* 💎 PREMIUM UI MODAL MODERN (ANTI-JADUL BLUEPRINT)        */
+/* ======================================================== */
+
+/* Container Utama Halaman Navigasi */
+.detail-page-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #f8f6f2; /* Cream pastel sangat lembut */
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  transform: translateY(100%);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); /* Efek slide premium */
+  box-sizing: border-box;
+}
+
+.detail-page-content {
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+/* Tombol Kembali / Back Header Ala Aplikasi Native */
+.btn-close-detail {
+  background: #ffffff;
+  border: 1px solid rgba(139, 94, 60, 0.15);
+  color: #8b5e3c;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-align: center;
+  cursor: pointer;
+  padding: 10px 18px;
+  border-radius: 20px; /* Kapsul modis */
+  width: fit-content;
+  box-shadow: 0 2px 6px rgba(139, 94, 60, 0.05);
+  margin-bottom: 20px;
+  transition: all 0.2s;
+}
+.btn-close-detail:active {
+  transform: scale(0.95);
+  background: #f5efe7;
+}
+
+/* --- TAMPILAN HUBUNGI KAMI (KOTAK DASHBOARD MODIS) --- */
+.contact-box {
+  background: #ffffff;
+  padding: 20px 16px;
+  border-radius: 18px; /* Lebih rounded dan empuk */
+  box-shadow: 0 6px 16px rgba(139, 94, 60, 0.08); /* Shadow halus anti-kaku */
+  margin-bottom: 16px;
+  border: 1px solid rgba(139, 94, 60, 0.05);
+  text-align: left;
+}
+.contact-box h4 {
+  margin: 0 0 6px 0;
+  color: #3e2723;
+  font-size: 1.1rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.contact-box p {
+  font-size: 0.9rem;
+  color: #6d4c41;
+  line-height: 1.5;
+  margin: 0 0 14px 0;
+}
+.btn-contact-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-decoration: none;
+  color: white !important;
+  border: none;
+  cursor: pointer;
+  box-sizing: border-box;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  transition: transform 0.1s ease;
+}
+.btn-contact-action:active {
+  transform: scale(0.97);
+}
+
+/* --- TAMPILAN PREMIUM GALLERY GRID --- */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  padding-top: 10px;
+}
+.gallery-item {
+  background: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(139, 94, 60, 0.06);
+  border: 1px solid rgba(139, 94, 60, 0.04);
+}
+.gallery-item img {
+  width: 100%;
+  height: 130px;
+  object-fit: cover; /* Gambar terpotong rapi secara proporsional, tidak penyet */
+  background-color: #eae5db;
+}
+.gallery-item p {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #3e2723;
+  padding: 10px;
+  margin: 0;
+  text-align: center;
+}
+
+/* --- TAMPILAN PRESTISIUS LIST ULASAN --- */
+.review-list {
+  padding-top: 10px;
+}
+.review-item {
+  background: #ffffff;
+  padding: 18px;
+  border-radius: 16px;
+  margin-bottom: 14px;
+  box-shadow: 0 4px 12px rgba(139, 94, 60, 0.06);
+  border-left: 4px solid #8b5e3c; /* Aksen garis tema di sebelah kiri */
+}
+.review-stars {
+  color: #ffb300;
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+}
+.review-name {
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: #3e2723;
+  margin-bottom: 6px;
+}
+.review-text {
+  font-size: 0.9rem;
+  color: #5d4037;
+  line-height: 1.5;
+  font-style: italic;
+}
+
+/* --- TAMPILAN HALAMAN LAYANAN TEKS --- */
+.layanan-info-card {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 18px;
+  box-shadow: 0 6px 16px rgba(139, 94, 60, 0.06);
+  line-height: 1.6;
+  color: #5d4037;
+  font-size: 0.95rem;
+  border: 1px solid rgba(139, 94, 60, 0.04);
+}
+.layanan-info-card p {
+  margin: 0 0 12px 0;
+}
+.layanan-info-card p:last-child {
+  margin: 0;
+  }
   </style>
 </head>
 <body>
@@ -1509,3 +1681,4 @@ function tutupNavPage() {
 <!-- ========================================================-->
 </body>
 </html>
+          
