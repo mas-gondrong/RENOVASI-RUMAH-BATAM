@@ -946,11 +946,12 @@ body {
 
         <div class="nav-drawer" id="navDrawer">
   <nav aria-label="Navigasi utama" id="mainMenu">
-  <a href="#" data-page="beranda">Beranda</a>
-  <a href="#" data-page="galery">Galery</a>
-  <a href="#" data-page="ulasan">Ulasan</a>
-  <a href="#" data-page="layanan">Layanan</a>
-  <a href="#" data-page="hubungi">Hubungi</a>
+ <!-- SILAKAN SESUAIKAN KODE LINK DI DALAM DRAWER ANDA MENJADI SEPERTI INI -->
+<a href="#" onclick="tutupNavPage(); return false;">Beranda</a>
+<a href="#" onclick="bukaHalamanNav('Gallery'); return false;">Galery</a>
+<a href="#" onclick="bukaHalamanNav('Ulasan'); return false;">Ulasan</a>
+<a href="#" onclick="bukaHalamanNav('Layanan'); return false;">Layanan</a>
+<a href="#" onclick="bukaHalamanNav('Hubungi'); return false;">Hubungi</a>
           </nav>
         </div>
       </div>
