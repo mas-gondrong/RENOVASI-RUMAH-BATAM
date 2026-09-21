@@ -1467,7 +1467,45 @@ function tutupNavPage() {
   }
   }
 </script>
+          
+      <!-- ======================================================== -->
+<!-- KODE ELEMEN PENAMPUNG HALAMAN FULL SCREEN (WAJIB ADA)   -->
+<!-- ======================================================== -->
+<div id="navPage" class="detail-page-overlay">
+  <div class="detail-page-content">
+    <button class="btn-close-detail" onclick="tutupNavPage()">&larr; Kembali ke Beranda</button>
+    
+    <div style="text-align: center; margin-bottom: 20px;">
+      <h2 id="navPageTitle" style="font-size: 1.8rem; color: #3e2723; font-weight: 800; margin: 0;">Judul Halaman</h2>
+    </div>
+
+    <!-- AREA KONTEN DINAMIS -->
+    <div id="navPageBody" style="flex-grow: 1; overflow-y: auto; padding-bottom: 20px;">
+      <!-- JavaScript akan menyuntikkan isi konten di sini -->
+    </div>
+  </div>
+</div>
+
+<div id="detailPage" class="detail-page-overlay">
+  <div class="detail-page-content">
+    <button class="btn-close-detail" onclick="tutupHalamanDetail()">&larr; Kembali</button>
+    
+    <div class="detail-main-info">
+      <div id="detailIcon" class="detail-large-icon">🏠</div>
+      <h2 id="detailTitle">Nama Layanan</h2>
+      <p id="detailDescription">Deskripsi lengkap.</p>
+    </div>
+
+    <div class="detail-price-box">
+      <h4>Prakiraan Biaya Awal:</h4>
+      <p id="detailPrice">Mulai dari Rp -,</p>
+    </div>
+
+    <button id="detailCtaBtn" class="btn-detail-cta">
+      💬 Konsultasi Layanan Ini via WhatsApp
+    </button>
+  </div>
+</div>
+<!-- ========================================================-->
 </body>
 </html>
-
-          
