@@ -1194,177 +1194,93 @@ body {
 
 <script>
   // ==========================================
-// 1. NAV DRAWER & ANIMASI (Pertahankan & Sesuaikan)
-// ==========================================
-const menuToggle = document.getElementById('menuToggle');
-const navDrawer = document.getElementById('navDrawer');
+  // 1. NAV DRAWER, ANIMASI & MENU TOGGLE (Sistem Navigasi Utama)
+  // ==========================================
+  const menuToggle = document.getElementById('menuToggle');
+  const navDrawer = document.getElementById('navDrawer');
 
-menuToggle.addEventListener('click', () => {
-  const isOpen = navDrawer.classList.toggle('open');
-  menuToggle.classList.toggle('active', isOpen);
-  menuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-});
-
-// MODIFIKASI: Menutup laci DAN membuka halaman full-screen secara bersamaan
-document.querySelectorAll('.nav-drawer a, .nav-links a').forEach(link => {
-  link.addEventListener('click', (e) => {
-    // 1. Tutup laci drawer terlebih dahulu agar rapi
-    navDrawer.classList.remove('open');
-    menuToggle.classList.remove('active');
-    menuToggle.setAttribute('aria-expanded', 'false');
-
-    // 2. Ambil teks menu (misal: "Beranda", "Galery", "Ulasan", "Hubungi")
-    const menuText = link.innerText.trim();
-    
-    // Jika klik Beranda, kembalikan ke beranda utama
-    if (menuText === 'Beranda') {
-      tutupNavPage();
-      return;
-    }
-    
-    // Mencegah link kosong melompat ke halaman atas browser
-    e.preventDefault(); 
-    
-    // Buka halaman full screen dinamis sesuai menu yang diklik
-    bukaHalamanNav(menuText);
+  // Buka/Tutup laci menu saat tombol garis tiga diklik
+  menuToggle.addEventListener('click', () => {
+    const isOpen = navDrawer.classList.toggle('open');
+    menuToggle.classList.toggle('active', isOpen);
+    menuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
   });
-});
 
-// Animasi kemunculan elemen saat di-scroll (Tetap Pertahankan)
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if(entry.isIntersecting){
-      entry.target.classList.add('visible');
-    }
+  // Deteksi klik pada setiap menu di laci navigasi
+  document.querySelectorAll('.nav-drawer a, .nav-links a').forEach(link => {
+    link.addEventListener('click', (e) => {
+      // 1. Tutup laci drawer terlebih dahulu agar rapi
+      navDrawer.classList.remove('open');
+      menuToggle.classList.remove('active');
+      menuToggle.setAttribute('aria-expanded', 'false');
+
+      // 2. Ambil teks menu (misal: "Beranda", "Galery", "Ulasan", "Hubungi")
+      const menuText = link.innerText.trim();
+      
+      // Jika klik Beranda, kembalikan ke tampilan utama
+      if (menuText === 'Beranda') {
+        tutupNavPage();
+        return;
+      }
+      
+      // Mencegah link kosong melompat ke halaman atas browser
+      e.preventDefault(); 
+      
+      // Buka halaman full screen sesuai menu yang diklik
+      bukaHalamanNav(menuText);
+    });
   });
-}, { threshold: 0.14 });
 
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  // Animasi kemunculan elemen saat di-scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.14 });
 
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-// ==========================================
-// 2. REGISTRASI PWA STANDAR (Tetap Pertahankan)
-// ==========================================
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js')
-      .then(reg => console.log('Service Worker terdaftar silang!', reg.scope))
-      .catch(err => console.log('Registrasi SW gagal:', err));
-  });
-}
-
-
-// ==========================================
-// 3. FUNGSI HALAMAN DINAMIS TOGGLE (Tambahkan Baru)
-// ==========================================
-function bukaHalamanNav(namaMenu) {
-  const pageTitle = document.getElementById('navPageTitle');
-  const pageBody = document.getElementById('navPageBody');
-  
-  pageTitle.innerText = namaMenu;
-  pageBody.innerHTML = ''; // Reset konten
-  
-  // 💡 SILAKAN SESUAIKAN KREDENSIAL BISNIS ANDA DI SINI
-  const nomorWA = "628123456789"; // Gunakan format 62 tanpa spasi dan tanda +
-  const alamatLengkap = "Jl. Raya Batam Center No.12, Tlk. Tering, Kec. Batam Kota, Kota Batam, Kepulauan Riau 29444";
-  const urlGoogleMaps = "https://goo.gl"; 
-  const emailBisnis = "renovasirumahbatam@gmail.com";
-
-  if (namaMenu === 'Galery') {
-    pageBody.innerHTML = `
-      <p style="text-align:center; font-size:0.9rem; margin-bottom:15px; color:#7d6660;">Dokumentasi hasil proyek pengerjaan kami di Batam:</p>
-      <div class="gallery-grid">
-        <div class="gallery-item"><img src="logo_192.png" alt="Proyek 1"><p style="font-size:0.75rem; padding:6px; margin:0; text-align:center;">Proyek Renovasi Tiban</p></div>
-        <div class="gallery-item"><img src="logo_192.png" alt="Proyek 2"><p style="font-size:0.75rem; padding:6px; margin:0; text-align:center;">Pagar Batam Center</p></div>
-        <div class="gallery-item"><img src="logo_192.png" alt="Proyek 3"><p style="font-size:0.75rem; padding:6px; margin:0; text-align:center;">Cat Interior Nagoya</p></div>
-        <div class="gallery-item"><img src="logo_192.png" alt="Proyek 4"><p style="font-size:0.75rem; padding:6px; margin:0; text-align:center;">Cor Dak Batu Aji</p></div>
-      </div>
-    `;
-  } 
-  
-  else if (namaMenu === 'Ulasan') {
-    pageBody.innerHTML = `
-      <p style="text-align:center; font-size:0.9rem; margin-bottom:15px; color:#7d6660;">Apa kata mereka tentang layanan kami?</p>
-      <div class="review-list">
-        <div class="review-item">
-          <div class="review-stars">⭐⭐⭐⭐⭐</div>
-          <div class="review-name">Budi Santoso (Batam Center)</div>
-          <div class="review-text">"Pengerjaan cor dak rumah sangat rapi, tukangnya profesional dan selesai tepat waktu. Sangat direkomendasikan!"</div>
-        </div>
-        <div class="review-item">
-          <div class="review-stars">⭐⭐⭐⭐⭐</div>
-          <div class="review-name">Siti Rahma (Tiban)</div>
-          <div class="review-text">"Renovasi dapur minimalis saya hasilnya cantik sekali. Biaya transparan dan pengerjaannya halus."</div>
-        </div>
-      </div>
-    `;
-  } 
-  
-  else if (namaMenu === 'Layanan') {
-    pageBody.innerHTML = `
-      <div style="background:#fff; padding:16px; border-radius:14px; box-shadow:0 4px 12px rgba(0,0,0,0.05); line-height:1.6; color:#5d4037;">
-        <p><strong>Jasa Renovasi Rumah Batam</strong> berkomitmen memberikan solusi konstruksi terbaik untuk hunian Anda. Kami melayani perbaikan skala kecil hingga pembangunan total bangunan baru.</p>
-        <p>Sistem kerja kami didukung oleh tukang berpengalaman asli bangunan, manajemen material yang efisien, serta garansi pemeliharaan pasca renovasi untuk menjamin kepuasan Anda.</p>
-      </div>
-    `;
-  } 
-  
-  else if (namaMenu === 'Hubungi') {
-    pageBody.innerHTML = `
-      <div class="contact-box">
-        <h4>📍 Alamat Kantor</h4>
-        <p>${alamatLengkap}</p>
-        <a href="${urlGoogleMaps}" class="btn-contact-action" style="background-color: #4285F4;" target="_blank">🗺️ Buka di Google Maps</a>
-      </div>
-
-      <div class="contact-box">
-        <h4>💬 Hubungi Kami</h4>
-        <p>Konsultasikan kebutuhan renovasi Anda langsung via WhatsApp (Fast Response).</p>
-        <a href="https://wa.me{nomorWA}?text=Halo%20Admin%20Renovasi%20Batam,%20saya%20ingin%20berkonsultasi." class="btn-contact-action" style="background-color: #2e7d32;" target="_blank">📞 Chat WhatsApp</a>
-      </div>
-
-      <div class="contact-box">
-        <h4>✉️ Kirim Email</h4>
-        <p>Kirimkan berkas penawaran atau berkas gambar arsitektur melalui email.</p>
-        <a href="mailto:${emailBisnis}?subject=Tanya%20Jasa%20Renovasi%20Rumah" class="btn-contact-action" style="background-color: #ea4335;">📧 Buka Gmail</a>
-      </div>
-    `;
-  }
-
-  // Tampilkan halaman dengan slide ke atas
-  document.getElementById('navPage').classList.add('open');
-}
-
-function tutupNavPage() {
-  document.getElementById('navPage').classList.remove('open');
-    }
 
   // ==========================================
-  // 3. FITUR LOG IN ADMIN (Peta Jalan Kelanjutan)
+  // 2. REGISTRASI PWA STANDAR
+  // ==========================================
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js')
+        .then(reg => console.log('Service Worker terdaftar silang!', reg.scope))
+        .catch(err => console.log('Registrasi SW gagal:', err));
+    });
+  }
+
+
+  // ==========================================
+  // 3. FITUR LOG IN ADMIN
   // ==========================================
   const adminLogo = document.getElementById('adminLogo');
   let clickCount = 0;
   let clickTimer = null;
 
-  adminLogo.addEventListener('click', (e) => {
-    e.preventDefault();
-    clickCount++;
+  if (adminLogo) {
+    adminLogo.addEventListener('click', (e) => {
+      e.preventDefault();
+      clickCount++;
 
-    if (clickCount === 5) {
-      clickCount = 0;
-      openAdminLogin();
-    }
+      if (clickCount === 5) {
+        clickCount = 0;
+        openAdminLogin();
+      }
 
-    clearTimeout(clickTimer);
-    clickTimer = setTimeout(() => {
-      clickCount = 0;
-    }, 2000);
-  });
+      clearTimeout(clickTimer);
+      clickTimer = setTimeout(() => {
+        clickCount = 0;
+      }, 2000);
+    });
+  }
 
   function openAdminLogin() {
     const password = prompt('Masukkan password admin:');
-    // Tips keamanan: Untuk latihan offline tidak apa-apa, 
-    // namun ke depannya gunakan integrasi Firebase atau Supabase untuk kelola ulasan/foto.
     if (password === 'admin123') { 
       showAdminPanel();
     } else {
@@ -1376,81 +1292,163 @@ function tutupNavPage() {
     alert('Selamat datang di panel admin! Di sini Anda bisa menghapus ulasan, serta mengunggah atau menghapus foto portofolio.');
   }
 
-  // Database Konten untuk Halaman Detail Full Screen Anda
-const databaseLayanan = {
-  'Renovasi Rumah': {
-    deskripsi: 'Layanan renovasi total atau sebagian untuk meremajakan kondisi hunian Anda, baik penambahan lantai, perbaikan tata ruang, maupun peremajaan struktur bangunan agar lebih kokoh dan estetis.',
-    harga: 'Hubungi untuk Estimasi',
-    ikon: '🏠'
-  },
-  'Bangun Tembok': {
-    deskripsi: 'Pemasangan dinding batako atau bata merah baru, perbaikan dinding retak, serta pembuatan pembatas lahan dengan pengerjaan yang presisi dan kokoh.',
-    harga: 'Rp 120.000 - Rp 180.000 / m²',
-    ikon: '🧱'
-  },
-  'Cor Beton': {
-    deskripsi: 'Pekerjaan pengecoran dak lantai, sloof, kolom struktur, cakar ayam, maupun balok beton menggunakan komposisi material standar kekuatan tinggi demi keamanan bangunan.',
-    harga: 'Rp 1.200.000 / m³',
-    ikon: '🏗️'
-  },
-  'Bongkar Bangunan': {
-    deskripsi: 'Jasa pembongkaran sekat ruangan, dinding lama, lantai, atau bagian bangunan tertentu secara aman demi mempersiapkan area konstruksi yang baru.',
-    harga: 'Berdasarkan Volume Kerja',
-    ikon: '🔨'
-  },
-  'Plester & Acian': {
-    deskripsi: 'Perapihan permukaan dinding kasar hasil pemasangan batako agar menjadi halus, rata, dan siap untuk masuk ke tahap pengecatan.',
-    harga: 'Rp 65.000 / m²',
-    ikon: '🪜'
-  },
-  'Pasang Keramik': {
-    deskripsi: 'Pemasangan lantai keramik, granit, atau ubin dinding kamar mandi dengan pemotongan yang rapi dan nat yang presisi untuk keindahan rumah.',
-    harga: 'Rp 90.000 / m²',
-    ikon: '📐'
-  },
-  'Renovasi Interior': {
-    deskripsi: 'Penataan ulang estetika ruang dalam, pembuatan sekat estetik, pengerjaan backdrop, dan perapihan dekorasi interior rumah Anda.',
-    harga: 'Menyesuaikan Desain',
-    ikon: '🛋️'
-  },
-  'Cat Interior': {
-    deskripsi: 'Pengecatan dinding bagian dalam rumah menggunakan cat berkualitas tinggi yang minim bau, menutup retak rambut, dan tahan lama.',
-    harga: 'Rp 35.000 / m²',
-    ikon: '🎨'
+
+  // ==========================================
+  // 4. DATABASE & SCRIPT DETAIL LAYANAN (KOTAK BERANDA)
+  // ==========================================
+  const databaseLayanan = {
+    'Renovasi Rumah': {
+      deskripsi: 'Layanan renovasi total atau sebagian untuk meremajakan kondisi hunian Anda, baik penambahan lantai, perbaikan tata ruang, maupun peremajaan struktur bangunan agar lebih kokoh dan estetis.',
+      harga: 'Hubungi untuk Estimasi',
+      ikon: '🏠'
+    },
+    'Bangun Tembok': {
+      deskripsi: 'Pemasangan dinding batako atau bata merah baru, perbaikan dinding retak, serta pembuatan pembatas lahan dengan pengerjaan yang presisi dan kokoh.',
+      harga: 'Rp 120.000 - Rp 180.000 / m²',
+      ikon: '🧱'
+    },
+    'Cor Beton': {
+      deskripsi: 'Pekerjaan pengecoran dak lantai, sloof, kolom struktur, cakar ayam, maupun balok beton menggunakan komposisi material standar kekuatan tinggi demi keamanan bangunan.',
+      harga: 'Rp 1.200.000 / m³',
+      ikon: '🏗️'
+    },
+    'Bongkar Bangunan': {
+      deskripsi: 'Jasa pembongkaran sekat ruangan, dinding lama, lantai, atau bagian bangunan tertentu secara aman demi mempersiapkan area konstruksi yang baru.',
+      harga: 'Berdasarkan Volume Kerja',
+      ikon: '🔨'
+    },
+    'Plester & Acian': {
+      deskripsi: 'Perapihan permukaan dinding kasar hasil pemasangan batako agar menjadi halus, rata, dan siap untuk masuk ke tahap pengecatan.',
+      harga: 'Rp 65.000 / m²',
+      ikon: '🪜'
+    },
+    'Pasang Keramik': {
+      deskripsi: 'Pemasangan lantai keramik, granit, atau ubin dinding kamar mandi dengan pemotongan yang rapi dan nat yang presisi untuk keindahan rumah.',
+      harga: 'Rp 90.000 / m²',
+      ikon: '📐'
+    },
+    'Renovasi Interior': {
+      deskripsi: 'Penataan ulang estetika ruang dalam, pembuatan sekat estetik, pengerjaan backdrop, dan perapihan dekorasi interior rumah Anda.',
+      harga: 'Menyesuaikan Desain',
+      ikon: '🛋️'
+    },
+    'Cat Interior': {
+      deskripsi: 'Pengecatan dinding bagian dalam rumah menggunakan cat berkualitas tinggi yang minim bau, menutup retak rambut, dan tahan lama.',
+      harga: 'Rp 35.000 / m²',
+      ikon: '🎨'
+    }
+  };
+
+  function hubungiWhatsApp(namaLayanan) {
+    const data = databaseLayanan[namaLayanan] || {
+      deskripsi: 'Melayani perbaikan dan renovasi berkualitas untuk rumah idaman Anda di Batam.',
+      harga: 'Hubungi untuk Harga',
+      ikon: '🏠'
+    };
+
+    document.getElementById('detailIcon').innerText = data.ikon;
+    document.getElementById('detailTitle').innerText = namaLayanan;
+    document.getElementById('detailDescription').innerText = data.deskripsi;
+    document.getElementById('detailPrice').innerText = data.harga;
+
+    // 💡 PERBAIKAN: Format link WhatsApp diperbaiki agar tidak eror (Ganti nomor 628XXXXXXXXXX dengan nomor asli Anda)
+    const nomorBisnis = "628XXXXXXXXXX"; 
+    const teksPesan = `Halo Jasa Renovasi Batam, saya sudah membaca detail tentang *${namaLayanan}* di aplikasi dan ingin berkonsultasi mengenai pekerjaan ini untuk rumah saya.`;
+    
+    document.getElementById('detailCtaBtn').onclick = function() {
+      window.open(`https://wa.me{nomorBisnis}?text=${encodeURIComponent(teksPesan)}`, '_blank');
+    };
+
+    document.getElementById('detailPage').classList.add('open');
   }
-  // Catatan: Anda bisa menambahkan kategori layanan lainnya di sini dengan pola yang sama
-};
 
-function hubungiWhatsApp(namaLayanan) {
-  const data = databaseLayanan[namaLayanan] || {
-    deskripsi: 'Melayani perbaikan dan renovasi berkualitas untuk rumah idaman Anda di Batam.',
-    harga: 'Hubungi untuk Harga',
-    ikon: '🏠'
-  };
+  function tutupHalamanDetail() {
+    document.getElementById('detailPage').classList.remove('open');
+  }
 
-  // 1. Masukkan konten secara dinamis ke dalam Modal Detail
-  document.getElementById('detailIcon').innerText = data.ikon;
-  document.getElementById('detailTitle').innerText = namaLayanan;
-  document.getElementById('detailDescription').innerText = data.deskripsi;
-  document.getElementById('detailPrice').innerText = data.harga;
 
-  // 2. Setel fungsi tombol WhatsApp di dalam halaman detail (Ganti nomor 628123456789 dengan nomor asli Anda)
-  const nomorBisnis = "62812349"; 
-  const teksPesan = `Halo Jasa Renovasi Batam, saya sudah membaca detail tentang *${namaLayanan}* di aplikasi dan ingin berkonsultasi mengenai pekerjaan ini untuk rumah saya.`;
-  
-  document.getElementById('detailCtaBtn').onclick = function() {
-    window.open(`https://wa.me{nomorBisnis}?text=${encodeURIComponent(teksPesan)}`, '_blank');
-  };
+  // ==========================================
+  // 5. FUNGSI HALAMAN DINAMIS UNTUK TOGGLE MENU (GALERY, ULASAN, DLL)
+  // ==========================================
+  function bukaHalamanNav(namaMenu) {
+    const pageTitle = document.getElementById('navPageTitle');
+    const pageBody = document.getElementById('navPageBody');
+    
+    pageTitle.innerText = namaMenu;
+    pageBody.innerHTML = ''; // Reset isi konten halaman
+    
+    // 💡 SILAKAN SESUAIKAN KREDENSIAL BISNIS ANDA DI SINI
+    const nomorWA = "628XXXXXXXXXX"; 
+    const alamatLengkap = "Jl. Raya Batam Center, Batam Kota, Kota Batam, Kepulauan Riau";
+    const urlGoogleMaps = "https://google.com"; 
+    const emailBisnis = "renovasirumahbatam@gmail.com";
 
-  // 3. Tampilkan halaman detail dengan slide ke atas
-  document.getElementById('detailPage').classList.add('open');
-}
+    // Ubah huruf besar/kecil agar cocok dengan teks di menu Anda (misal "Galery" atau "Gallery")
+    if (namaMenu === 'Galery' || namaMenu === 'Gallery') {
+      pageBody.innerHTML = `
+        <p style="text-align:center; font-size:0.9rem; margin-bottom:15px; color:#7d6660;">Dokumentasi hasil proyek pengerjaan kami di Batam:</p>
+        <div class="gallery-grid">
+          <div class="gallery-item"><img src="logo_192.png" alt="Proyek 1"><p style="font-size:0.75rem; padding:6px; margin:0; text-align:center;">Proyek Renovasi Tiban</p></div>
+          <div class="gallery-item"><img src="logo_192.png" alt="Proyek 2"><p style="font-size:0.75rem; padding:6px; margin:0; text-align:center;">Pagar Batam Center</p></div>
+          <div class="gallery-item"><img src="logo_192.png" alt="Proyek 3"><p style="font-size:0.75rem; padding:6px; margin:0; text-align:center;">Cat Interior Nagoya</p></div>
+          <div class="gallery-item"><img src="logo_192.png" alt="Proyek 4"><p style="font-size:0.75rem; padding:6px; margin:0; text-align:center;">Cor Dak Batu Aji</p></div>
+        </div>
+      `;
+    } 
+    
+    else if (namaMenu === 'Ulasan') {
+      pageBody.innerHTML = `
+        <p style="text-align:center; font-size:0.9rem; margin-bottom:15px; color:#7d6660;">Apa kata mereka tentang layanan kami?</p>
+        <div class="review-list">
+          <div class="review-item">
+            <div class="review-stars">⭐⭐⭐⭐•</div>
+            <div class="review-name">Budi Santoso (Batam Center)</div>
+            <div class="review-text">"Pengerjaan cor dak rumah sangat rapi, tukangnya profesional dan selesai tepat waktu. Sangat direkomendasikan!"</div>
+          </div>
+          <div class="review-item">
+            <div class="review-stars">⭐⭐⭐⭐⭐</div>
+            <div class="review-name">Siti Rahma (Tiban)</div>
+            <div class="review-text">"Renovasi dapur minimalis saya hasilnya cantik sekali. Biaya transparan dan pengerjaannya halus."</div>
+          </div>
+        </div>
+      `;
+    } 
+    
+    else if (namaMenu === 'Layanan') {
+      pageBody.innerHTML = `
+        <div style="background:#fff; padding:16px; border-radius:14px; box-shadow:0 4px 12px rgba(0,0,0,0.05); line-height:1.6; color:#5d4037;">
+          <p><strong>Jasa Renovasi Rumah Batam</strong> berkomitmen memberikan solusi konstruksi terbaik untuk hunian Anda. Kami melayani perbaikan skala kecil hingga pembangunan total bangunan baru.</p>
+          <p>Sistem kerja kami didukung oleh tukang berpengalaman asli bangunan, manajemen material yang efisien, serta garansi pemeliharaan pasca renovasi untuk menjamin kepuasan Anda.</p>
+        </div>
+      `;
+    } 
+    
+        else if (namaMenu === 'Hubungi') {
+      pageBody.innerHTML = 
+        '<div class="contact-box">' +
+          '<h4>📍 Alamat Kantor</h4>' +
+          '<p>' + alamatLengkap + '</p>' +
+          '<a href="' + urlGoogleMaps + '" class="btn-contact-action" style="background-color: #4285F4;" target="_blank">🗺️ Buka di Google Maps</a>' +
+        '</div>' +
+        '<div class="contact-box">' +
+          '<h4>💬 Hubungi Kami</h4>' +
+          '<p>Konsultasikan kebutuhan renovasi Anda langsung via WhatsApp (Fast Response).</p>' +
+          '<a href="https://wa.me' + nomorWA + '?text=Halo%20Admin%20Renovasi%20Batam,%20saya%20ingin%20berkonsultasi." class="btn-contact-action" style="background-color: #2e7d32;" target="_blank">📞 Chat WhatsApp</a>' +
+        '</div>' +
+        '<div class="contact-box">' +
+          '<h4>✉️ Kirim Email</h4>' +
+          '<p>Kirimkan berkas penawaran atau berkas gambar arsitektur melalui email.</p>' +
+          '<a href="mailto?' + emailBisnis + '?subject=Tanya%20Jasa%20Renovasi%20Rumah" class="btn-contact-action" style="background-color: #ea4335;">📧 Buka Gmail</a>' +
+        '</div>';
+    }
 
-function tutupHalamanDetail() {
-  // Sembunyikan kembali halaman detail ke bawah layar
-  document.getElementById('detailPage').classList.remove('open');
-                                               }
-  </script>
+    // Munculkan halaman menu toggle ke atas layar
+    document.getElementById('navPage').classList.add('open');
+  }
+
+  function tutupNavPage() {
+    document.getElementById('navPage').classList.remove('open');
+  }
+</script>
 </body>
 </html>
-          
