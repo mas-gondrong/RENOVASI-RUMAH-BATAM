@@ -1367,89 +1367,107 @@ body {
     document.getElementById('detailPage').classList.remove('open');
   }
 
+// Ganti nomor WA bisnis Anda di sini (Gunakan format 62 tanpa + dan tanpa spasi)
+const NOMOR_WA_BISNIS = "628XXXXXXXXXX"; 
 
-  // ==========================================
-  // 5. FUNGSI HALAMAN DINAMIS UNTUK TOGGLE MENU (GALERY, ULASAN, DLL)
-  // ==========================================
-  function bukaHalamanNav(namaMenu) {
-    const pageTitle = document.getElementById('navPageTitle');
-    const pageBody = document.getElementById('navPageBody');
-    
-    pageTitle.innerText = namaMenu;
-    pageBody.innerHTML = ''; // Reset isi konten halaman
-    
-    // 💡 SILAKAN SESUAIKAN KREDENSIAL BISNIS ANDA DI SINI
-    const nomorWA = "628XXXXXXXXXX"; 
-    const alamatLengkap = "Jl. Raya Batam Center, Batam Kota, Kota Batam, Kepulauan Riau";
-    const urlGoogleMaps = "https://google.com"; 
-    const emailBisnis = "renovasirumahbatam@gmail.com";
-
-    // Ubah huruf besar/kecil agar cocok dengan teks di menu Anda (misal "Galery" atau "Gallery")
-    if (namaMenu === 'Galery' || namaMenu === 'Gallery') {
-      pageBody.innerHTML = `
-        <p style="text-align:center; font-size:0.9rem; margin-bottom:15px; color:#7d6660;">Dokumentasi hasil proyek pengerjaan kami di Batam:</p>
-        <div class="gallery-grid">
-          <div class="gallery-item"><img src="logo_192.png" alt="Proyek 1"><p style="font-size:0.75rem; padding:6px; margin:0; text-align:center;">Proyek Renovasi Tiban</p></div>
-          <div class="gallery-item"><img src="logo_192.png" alt="Proyek 2"><p style="font-size:0.75rem; padding:6px; margin:0; text-align:center;">Pagar Batam Center</p></div>
-          <div class="gallery-item"><img src="logo_192.png" alt="Proyek 3"><p style="font-size:0.75rem; padding:6px; margin:0; text-align:center;">Cat Interior Nagoya</p></div>
-          <div class="gallery-item"><img src="logo_192.png" alt="Proyek 4"><p style="font-size:0.75rem; padding:6px; margin:0; text-align:center;">Cor Dak Batu Aji</p></div>
-        </div>
-      `;
-    } 
-    
-    else if (namaMenu === 'Ulasan') {
-      pageBody.innerHTML = `
-        <p style="text-align:center; font-size:0.9rem; margin-bottom:15px; color:#7d6660;">Apa kata mereka tentang layanan kami?</p>
-        <div class="review-list">
-          <div class="review-item">
-            <div class="review-stars">⭐⭐⭐⭐•</div>
-            <div class="review-name">Budi Santoso (Batam Center)</div>
-            <div class="review-text">"Pengerjaan cor dak rumah sangat rapi, tukangnya profesional dan selesai tepat waktu. Sangat direkomendasikan!"</div>
-          </div>
-          <div class="review-item">
-            <div class="review-stars">⭐⭐⭐⭐⭐</div>
-            <div class="review-name">Siti Rahma (Tiban)</div>
-            <div class="review-text">"Renovasi dapur minimalis saya hasilnya cantik sekali. Biaya transparan dan pengerjaannya halus."</div>
-          </div>
-        </div>
-      `;
-    } 
-    
-    else if (namaMenu === 'Layanan') {
-      pageBody.innerHTML = `
-        <div style="background:#fff; padding:16px; border-radius:14px; box-shadow:0 4px 12px rgba(0,0,0,0.05); line-height:1.6; color:#5d4037;">
-          <p><strong>Jasa Renovasi Rumah Batam</strong> berkomitmen memberikan solusi konstruksi terbaik untuk hunian Anda. Kami melayani perbaikan skala kecil hingga pembangunan total bangunan baru.</p>
-          <p>Sistem kerja kami didukung oleh tukang berpengalaman asli bangunan, manajemen material yang efisien, serta garansi pemeliharaan pasca renovasi untuk menjamin kepuasan Anda.</p>
-        </div>
-      `;
-    } 
-    
-        else if (namaMenu === 'Hubungi') {
-      pageBody.innerHTML = 
-        '<div class="contact-box">' +
-          '<h4>📍 Alamat Kantor</h4>' +
-          '<p>' + alamatLengkap + '</p>' +
-          '<a href="' + urlGoogleMaps + '" class="btn-contact-action" style="background-color: #4285F4;" target="_blank">🗺️ Buka di Google Maps</a>' +
-        '</div>' +
-        '<div class="contact-box">' +
-          '<h4>💬 Hubungi Kami</h4>' +
-          '<p>Konsultasikan kebutuhan renovasi Anda langsung via WhatsApp (Fast Response).</p>' +
-          '<a href="https://wa.me' + nomorWA + '?text=Halo%20Admin%20Renovasi%20Batam,%20saya%20ingin%20berkonsultasi." class="btn-contact-action" style="background-color: #2e7d32;" target="_blank">📞 Chat WhatsApp</a>' +
-        '</div>' +
-        '<div class="contact-box">' +
-          '<h4>✉️ Kirim Email</h4>' +
-          '<p>Kirimkan berkas penawaran atau berkas gambar arsitektur melalui email.</p>' +
-          '<a href="mailto?' + emailBisnis + '?subject=Tanya%20Jasa%20Renovasi%20Rumah" class="btn-contact-action" style="background-color: #ea4335;">📧 Buka Gmail</a>' +
-        '</div>';
-    }
-
-    // Munculkan halaman menu toggle ke atas layar
-    document.getElementById('navPage').classList.add('open');
+function bukaHalamanNav(namaMenu) {
+  // 1. Otomatis tutup laci menu drawer terlebih dahulu agar rapi
+  const menuToggle = document.getElementById('menuToggle');
+  const navDrawer = document.getElementById('navDrawer');
+  if (navDrawer && menuToggle) {
+    navDrawer.classList.remove('open');
+    menuToggle.classList.remove('active');
+    menuToggle.setAttribute('aria-expanded', 'false');
   }
 
-  function tutupNavPage() {
-    document.getElementById('navPage').classList.remove('open');
+  const pageTitle = document.getElementById('navPageTitle');
+  const pageBody = document.getElementById('navPageBody');
+  
+  if (!pageTitle || !pageBody) {
+    console.error("Elemen #navPageTitle atau #navPageBody tidak ditemukan di HTML!");
+    return;
+  }
+
+  pageTitle.innerText = namaMenu;
+  pageBody.innerHTML = ''; // Reset konten sebelumnya
+  
+  const alamatLengkap = "Jl. Raya Batam Center, Batam Kota, Kota Batam, Kepulauan Riau";
+  const urlGoogleMaps = "https://google.com"; 
+  const emailBisnis = "renovasirumahbatam@gmail.com";
+
+  // ==========================================
+  // KONDISI KONTEN BERDASARKAN MENU
+  // ==========================================
+  if (namaMenu === 'Galery' || namaMenu === 'Gallery') {
+    pageBody.innerHTML = 
+      '<p style="text-align:center; font-size:0.9rem; margin-bottom:15px; color:#7d6660;">Dokumentasi hasil proyek pengerjaan kami di Batam:</p>' +
+      '<div class="gallery-grid">' +
+        '<div class="gallery-item"><img src="logo_192.png" alt="Proyek 1"><p style="font-size:0.75rem; padding:6px; margin:0; text-align:center;">Proyek Renovasi Tiban</p></div>' +
+        '<div class="gallery-item"><img src="logo_192.png" alt="Proyek 2"><p style="font-size:0.75rem; padding:6px; margin:0; text-align:center;">Pagar Batam Center</p></div>' +
+        '<div class="gallery-item"><img src="logo_192.png" alt="Proyek 3"><p style="font-size:0.75rem; padding:6px; margin:0; text-align:center;">Cat Interior Nagoya</p></div>' +
+        '<div class="gallery-item"><img src="logo_192.png" alt="Proyek 4"><p style="font-size:0.75rem; padding:6px; margin:0; text-align:center;">Cor Dak Batu Aji</p></div>' +
+      '</div>';
+  } 
+  
+  else if (namaMenu === 'Ulasan') {
+    pageBody.innerHTML = 
+      '<p style="text-align:center; font-size:0.9rem; margin-bottom:15px; color:#7d6660;">Apa kata mereka tentang layanan kami?</p>' +
+      '<div class="review-list">' +
+        '<div class="review-item">' +
+          '<div class="review-stars">⭐⭐⭐⭐⭐</div>' +
+          '<div class="review-name">Budi Santoso (Batam Center)</div>' +
+          '<div class="review-text">"Pengerjaan cor dak rumah sangat rapi, tukangnya profesional dan selesai tepat waktu. Sangat direkomendasikan!"</div>' +
+        '</div>' +
+        '<div class="review-item">' +
+          '<div class="review-stars">⭐⭐⭐⭐⭐</div>' +
+          '<div class="review-name">Siti Rahma (Tiban)</div>' +
+          '<div class="review-text">"Renovasi dapur minimalis saya hasilnya cantik sekali. Biaya transparan dan pengerjaannya halus."</div>' +
+        '</div>' +
+      '</div>';
+  } 
+  
+  else if (namaMenu === 'Layanan') {
+    pageBody.innerHTML = 
+      '<div style="background:#fff; padding:16px; border-radius:14px; box-shadow:0 4px 12px rgba(0,0,0,0.05); line-height:1.6; color:#5d4037;">' +
+        '<p><strong>Jasa Renovasi Rumah Batam</strong> berkomitmen memberikan solusi konstruksi terbaik untuk hunian Anda. Kami melayani perbaikan skala kecil hingga pembangunan total bangunan baru.</p>' +
+        '<p>Sistem kerja kami didukung oleh tukang berpengalaman asli bangunan, manajemen material yang efisien, serta garansi pemeliharaan pasca renovasi untuk menjamin kepuasan Anda.</p>' +
+      '</div>';
+  } 
+  
+  else if (namaMenu === 'Hubungi') {
+    pageBody.innerHTML = 
+      '<div class="contact-box">' +
+        '<h4>📍 Alamat Kantor</h4>' +
+        '<p>' + alamatLengkap + '</p>' +
+        '<a href="' + urlGoogleMaps + '" class="btn-contact-action" style="background-color: #4285F4;" target="_blank">🗺️ Buka di Google Maps</a>' +
+      '</div>' +
+      '<div class="contact-box">' +
+        '<h4>💬 Hubungi Kami</h4>' +
+        '<p>Konsultasikan kebutuhan renovasi Anda langsung via WhatsApp (Fast Response).</p>' +
+        '<a href="https://wa.me' + NOMOR_WA_BISNIS + '?text=Halo%20Admin%20Renovasi%20Batam,%20saya%20ingin%20berkonsultasi." class="btn-contact-action" style="background-color: #2e7d32;" target="_blank">📞 Chat WhatsApp</a>' +
+      '</div>' +
+      '<div class="contact-box">' +
+        '<h4>✉️ Kirim Email</h4>' +
+        '<p>Kirimkan berkas penawaran atau berkas gambar arsitektur melalui email.</p>' +
+        '<a href="mailto:' + emailBisnis + '?subject=Tanya%20Jasa%20Renovasi%20Rumah" class="btn-contact-action" style="background-color: #ea4335;">📧 Buka Gmail</a>' +
+      '</div>';
+  }
+
+  // Tampilkan halaman modal kustom dari bawah ke atas
+  const navPage = document.getElementById('navPage');
+  if (navPage) {
+    navPage.classList.add('open');
+  }
+}
+
+function tutupNavPage() {
+  const navPage = document.getElementById('navPage');
+  if (navPage) {
+    navPage.classList.remove('open');
+  }
   }
 </script>
 </body>
 </html>
+
+          
