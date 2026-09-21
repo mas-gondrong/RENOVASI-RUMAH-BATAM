@@ -1194,45 +1194,150 @@ body {
 
 <script>
   // ==========================================
-  // 1. NAV DRAWER & ANIMASI (Sudah Bagus)
-  // ==========================================
-  const menuToggle = document.getElementById('menuToggle');
-  const navDrawer = document.getElementById('navDrawer');
+// 1. NAV DRAWER & ANIMASI (Pertahankan & Sesuaikan)
+// ==========================================
+const menuToggle = document.getElementById('menuToggle');
+const navDrawer = document.getElementById('navDrawer');
 
-  menuToggle.addEventListener('click', () => {
-    const isOpen = navDrawer.classList.toggle('open');
-    menuToggle.classList.toggle('active', isOpen);
-    menuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+menuToggle.addEventListener('click', () => {
+  const isOpen = navDrawer.classList.toggle('open');
+  menuToggle.classList.toggle('active', isOpen);
+  menuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+});
+
+// MODIFIKASI: Menutup laci DAN membuka halaman full-screen secara bersamaan
+document.querySelectorAll('.nav-drawer a, .nav-links a').forEach(link => {
+  link.addEventListener('click', (e) => {
+    // 1. Tutup laci drawer terlebih dahulu agar rapi
+    navDrawer.classList.remove('open');
+    menuToggle.classList.remove('active');
+    menuToggle.setAttribute('aria-expanded', 'false');
+
+    // 2. Ambil teks menu (misal: "Beranda", "Galery", "Ulasan", "Hubungi")
+    const menuText = link.innerText.trim();
+    
+    // Jika klik Beranda, kembalikan ke beranda utama
+    if (menuText === 'Beranda') {
+      tutupNavPage();
+      return;
+    }
+    
+    // Mencegah link kosong melompat ke halaman atas browser
+    e.preventDefault(); 
+    
+    // Buka halaman full screen dinamis sesuai menu yang diklik
+    bukaHalamanNav(menuText);
   });
+});
 
-  document.querySelectorAll('.nav-drawer a').forEach(link => {
-    link.addEventListener('click', () => {
-      navDrawer.classList.remove('open');
-      menuToggle.classList.remove('active');
-      menuToggle.setAttribute('aria-expanded', 'false');
-    });
+// Animasi kemunculan elemen saat di-scroll (Tetap Pertahankan)
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      entry.target.classList.add('visible');
+    }
   });
+}, { threshold: 0.14 });
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if(entry.isIntersecting){
-        entry.target.classList.add('visible');
-      }
-    });
-  }, { threshold: 0.14 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-  // ==========================================
-  // 2. REGISTRASI PWA STANDAR (Diperbaiki)
-  // ==========================================
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('./sw.js')
-        .then(reg => console.log('Service Worker terdaftar silang!', reg.scope))
-        .catch(err => console.log('Registrasi SW gagal:', err));
-    });
+// ==========================================
+// 2. REGISTRASI PWA STANDAR (Tetap Pertahankan)
+// ==========================================
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js')
+      .then(reg => console.log('Service Worker terdaftar silang!', reg.scope))
+      .catch(err => console.log('Registrasi SW gagal:', err));
+  });
+}
+
+
+// ==========================================
+// 3. FUNGSI HALAMAN DINAMIS TOGGLE (Tambahkan Baru)
+// ==========================================
+function bukaHalamanNav(namaMenu) {
+  const pageTitle = document.getElementById('navPageTitle');
+  const pageBody = document.getElementById('navPageBody');
+  
+  pageTitle.innerText = namaMenu;
+  pageBody.innerHTML = ''; // Reset konten
+  
+  // 💡 SILAKAN SESUAIKAN KREDENSIAL BISNIS ANDA DI SINI
+  const nomorWA = "628123456789"; // Gunakan format 62 tanpa spasi dan tanda +
+  const alamatLengkap = "Jl. Raya Batam Center No.12, Tlk. Tering, Kec. Batam Kota, Kota Batam, Kepulauan Riau 29444";
+  const urlGoogleMaps = "https://goo.gl"; 
+  const emailBisnis = "renovasirumahbatam@gmail.com";
+
+  if (namaMenu === 'Galery') {
+    pageBody.innerHTML = `
+      <p style="text-align:center; font-size:0.9rem; margin-bottom:15px; color:#7d6660;">Dokumentasi hasil proyek pengerjaan kami di Batam:</p>
+      <div class="gallery-grid">
+        <div class="gallery-item"><img src="logo_192.png" alt="Proyek 1"><p style="font-size:0.75rem; padding:6px; margin:0; text-align:center;">Proyek Renovasi Tiban</p></div>
+        <div class="gallery-item"><img src="logo_192.png" alt="Proyek 2"><p style="font-size:0.75rem; padding:6px; margin:0; text-align:center;">Pagar Batam Center</p></div>
+        <div class="gallery-item"><img src="logo_192.png" alt="Proyek 3"><p style="font-size:0.75rem; padding:6px; margin:0; text-align:center;">Cat Interior Nagoya</p></div>
+        <div class="gallery-item"><img src="logo_192.png" alt="Proyek 4"><p style="font-size:0.75rem; padding:6px; margin:0; text-align:center;">Cor Dak Batu Aji</p></div>
+      </div>
+    `;
+  } 
+  
+  else if (namaMenu === 'Ulasan') {
+    pageBody.innerHTML = `
+      <p style="text-align:center; font-size:0.9rem; margin-bottom:15px; color:#7d6660;">Apa kata mereka tentang layanan kami?</p>
+      <div class="review-list">
+        <div class="review-item">
+          <div class="review-stars">⭐⭐⭐⭐⭐</div>
+          <div class="review-name">Budi Santoso (Batam Center)</div>
+          <div class="review-text">"Pengerjaan cor dak rumah sangat rapi, tukangnya profesional dan selesai tepat waktu. Sangat direkomendasikan!"</div>
+        </div>
+        <div class="review-item">
+          <div class="review-stars">⭐⭐⭐⭐⭐</div>
+          <div class="review-name">Siti Rahma (Tiban)</div>
+          <div class="review-text">"Renovasi dapur minimalis saya hasilnya cantik sekali. Biaya transparan dan pengerjaannya halus."</div>
+        </div>
+      </div>
+    `;
+  } 
+  
+  else if (namaMenu === 'Layanan') {
+    pageBody.innerHTML = `
+      <div style="background:#fff; padding:16px; border-radius:14px; box-shadow:0 4px 12px rgba(0,0,0,0.05); line-height:1.6; color:#5d4037;">
+        <p><strong>Jasa Renovasi Rumah Batam</strong> berkomitmen memberikan solusi konstruksi terbaik untuk hunian Anda. Kami melayani perbaikan skala kecil hingga pembangunan total bangunan baru.</p>
+        <p>Sistem kerja kami didukung oleh tukang berpengalaman asli bangunan, manajemen material yang efisien, serta garansi pemeliharaan pasca renovasi untuk menjamin kepuasan Anda.</p>
+      </div>
+    `;
+  } 
+  
+  else if (namaMenu === 'Hubungi') {
+    pageBody.innerHTML = `
+      <div class="contact-box">
+        <h4>📍 Alamat Kantor</h4>
+        <p>${alamatLengkap}</p>
+        <a href="${urlGoogleMaps}" class="btn-contact-action" style="background-color: #4285F4;" target="_blank">🗺️ Buka di Google Maps</a>
+      </div>
+
+      <div class="contact-box">
+        <h4>💬 Hubungi Kami</h4>
+        <p>Konsultasikan kebutuhan renovasi Anda langsung via WhatsApp (Fast Response).</p>
+        <a href="https://wa.me{nomorWA}?text=Halo%20Admin%20Renovasi%20Batam,%20saya%20ingin%20berkonsultasi." class="btn-contact-action" style="background-color: #2e7d32;" target="_blank">📞 Chat WhatsApp</a>
+      </div>
+
+      <div class="contact-box">
+        <h4>✉️ Kirim Email</h4>
+        <p>Kirimkan berkas penawaran atau berkas gambar arsitektur melalui email.</p>
+        <a href="mailto:${emailBisnis}?subject=Tanya%20Jasa%20Renovasi%20Rumah" class="btn-contact-action" style="background-color: #ea4335;">📧 Buka Gmail</a>
+      </div>
+    `;
   }
+
+  // Tampilkan halaman dengan slide ke atas
+  document.getElementById('navPage').classList.add('open');
+}
+
+function tutupNavPage() {
+  document.getElementById('navPage').classList.remove('open');
+    }
 
   // ==========================================
   // 3. FITUR LOG IN ADMIN (Peta Jalan Kelanjutan)
@@ -1348,3 +1453,4 @@ function tutupHalamanDetail() {
   </script>
 </body>
 </html>
+          
