@@ -592,6 +592,172 @@ main{
     border-radius: 28px;
   }
     }
+
+    :root {
+  --bg-color: #f5efe7;
+  --theme-color: #8b5e3c;
+  --text-dark: #3e2723;
+  --card-bg: #ffffff;
+  --shadow-light: rgba(139, 94, 60, 0.15);
+  --success-color: #2e7d32;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-dark);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.pwa-container {
+  max-width: 600px; /* Batasi lebar maksimal agar pas di layar HP */
+  margin: 0 auto;
+  padding: 20px 16px 40px 16px;
+  box-sizing: border-box;
+}
+
+/* HEADER STYLE */
+.pwa-header {
+  text-align: center;
+  padding: 24px 0 10px 0;
+}
+.header-icon {
+  font-size: 3rem;
+  margin-bottom: 8px;
+}
+.pwa-header h1 {
+  font-size: 1.6rem;
+  font-weight: 800;
+  line-height: 1.2;
+  margin: 0;
+  color: var(--theme-color);
+  letter-spacing: 0.5px;
+}
+.pwa-header h1 span {
+  color: var(--text-dark);
+}
+.header-sub {
+  font-size: 0.9rem;
+  opacity: 0.8;
+  margin: 8px 0 0 0;
+}
+
+.pwa-divider {
+  border: none;
+  border-top: 2px dashed rgba(139, 94, 60, 0.2);
+  margin: 20px 0;
+}
+
+/* SERVICE GROUPS */
+.services-group {
+  margin-bottom: 28px;
+}
+.services-group h2 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  color: var(--text-dark);
+}
+.group-icon {
+  margin-right: 8px;
+}
+
+/* GRID & CARDS (2 KOLOM) */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.service-card {
+  background-color: var(--card-bg);
+  border-radius: 14px; /* Rounded corners */
+  padding: 16px 12px;
+  text-align: center;
+  box-shadow: 0 4px 10px var(--shadow-light);
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent; /* Hilangkan efek highlight biru di Chrome Android */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Keterangan deskripsi disembunyikan agar tampilan kartu tetap kotak & rapi, 
+   namun tetap terbaca baik oleh SEO Google */
+.service-card p {
+  display: none; 
+}
+
+.card-icon {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.service-card h3 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--text-dark);
+  line-height: 1.3;
+}
+
+/* EFEK TEKAN (PWA FEELING) */
+.service-card:active {
+  transform: scale(0.95); /* Efek memantul ke dalam */
+  box-shadow: 0 2px 4px var(--shadow-light);
+  background-color: #fcfbfa;
+}
+
+/* CTA BUTTONS */
+.cta-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.btn-cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1rem;
+  text-decoration: none;
+  padding: 16px;
+  border-radius: 14px;
+  color: #ffffff;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+  transition: transform 0.1s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn-cta span {
+  font-size: 1.2rem;
+  margin-right: 8px;
+}
+.bg-primary {
+  background-color: var(--theme-color);
+}
+.bg-success {
+  background-color: var(--success-color);
+}
+.btn-cta:active {
+  transform: scale(0.97);
+}
+
+/* KELAS REVEAL UNTUK INTERSECTION OBSERVER ANDA */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
   </style>
 </head>
 <body>
@@ -675,6 +841,157 @@ main{
               </p>
             </div>
           </div>
+
+          <main class="pwa-container">
+  <!-- HEADER UTAMA -->
+  <header class="pwa-header reveal">
+    <div class="header-icon">🏠</div>
+    <h1>JASA RENOVASI<br><span>RUMAH BATAM</span></h1>
+    <p class="header-sub">Melayani renovasi, perbaikan, dan pembangunan rumah di Batam</p>
+  </header>
+
+  <hr class="pwa-divider">
+
+  <!-- KATEGORI 1: BANGUNAN -->
+  <section class="services-group reveal">
+    <h2><span class="group-icon">🧱</span> BANGUNAN</h2>
+    <div class="services-grid">
+      <div class="service-card" onclick="hubungiWhatsApp('Renovasi Rumah')">
+        <div class="card-icon">🏠</div>
+        <h3>Renovasi Rumah</h3>
+        <p>Renovasi sebagian atau keseluruhan rumah</p>
+      </div>
+      <div class="service-card" onclick="hubungiWhatsApp('Bangun Tembok')">
+        <div class="card-icon">🧱</div>
+        <h3>Bangun Tembok</h3>
+        <p>Pembuatan dan perbaikan dinding</p>
+      </div>
+      <div class="service-card" onclick="hubungiWhatsApp('Cor Beton')">
+        <div class="card-icon">🏗️</div>
+        <h3>Cor Beton</h3>
+        <p>Cor lantai, dak, sloof, kolom & struktur</p>
+      </div>
+      <div class="service-card" onclick="hubungiWhatsApp('Bongkar Bangunan')">
+        <div class="card-icon">🔨</div>
+        <h3>Bongkar Bangunan</h3>
+        <p>Pembongkaran tembok dan bagian bangunan</p>
+      </div>
+      <div class="service-card" onclick="hubungiWhatsApp('Plester & Acian')">
+        <div class="card-icon">🪜</div>
+        <h3>Plester & Acian</h3>
+        <p>Perapihan permukaan dinding</p>
+      </div>
+      <div class="service-card" onclick="hubungiWhatsApp('Pasang Keramik')">
+        <div class="card-icon">📐</div>
+        <h3>Pasang Keramik</h3>
+        <p>Lantai dan dinding</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- KATEGORI 2: INTERIOR -->
+  <section class="services-group reveal">
+    <h2><span class="group-icon">🛋️</span> INTERIOR</h2>
+    <div class="services-grid">
+      <div class="service-card" onclick="hubungiWhatsApp('Renovasi Interior')">
+        <div class="card-icon">🛋️</div>
+        <h3>Renovasi Interior</h3>
+        <p>Perubahan dan perapihan bagian dalam rumah</p>
+      </div>
+      <div class="service-card" onclick="hubungiWhatsApp('Cat Interior')">
+        <div class="card-icon">🎨</div>
+        <h3>Cat Interior</h3>
+        <p>Pengecatan dinding dan plafon</p>
+      </div>
+      <div class="service-card" onclick="hubungiWhatsApp('Renovasi Dapur')">
+        <div class="card-icon">🍳</div>
+        <h3>Renovasi Dapur</h3>
+        <p>Pembuatan dan renovasi area dapur</p>
+      </div>
+      <div class="service-card" onclick="hubungiWhatsApp('Renovasi Kamar Mandi')">
+        <div class="card-icon">🛁</div>
+        <h3>Renovasi Kamar Mandi</h3>
+        <p>Perbaikan dan perubahan kamar mandi</p>
+      </div>
+      <div class="service-card" onclick="hubungiWhatsApp('Pintu & Jendela')">
+        <div class="card-icon">🚪</div>
+        <h3>Pintu & Jendela</h3>
+        <p>Pembuatan, pemasangan & perbaikan</p>
+      </div>
+      <div class="service-card" onclick="hubungiWhatsApp('Plafon Rumah')">
+        <div class="card-icon">💡</div>
+        <h3>Plafon Rumah</h3>
+        <p>Pemasangan dan perbaikan plafon</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- KATEGORI 3: EKSTERIOR -->
+  <section class="services-group reveal">
+    <h2><span class="group-icon">🌳</span> EKSTERIOR</h2>
+    <div class="services-grid">
+      <div class="service-card" onclick="hubungiWhatsApp('Renovasi Atap')">
+        <div class="card-icon">🏠</div>
+        <h3>Renovasi Atap</h3>
+        <p>Perbaikan dan penggantian atap</p>
+      </div>
+      <div class="service-card" onclick="hubungiWhatsApp('Cat Eksterior')">
+        <div class="card-icon">🎨</div>
+        <h3>Cat Eksterior</h3>
+        <p>Pengecatan bagian luar rumah</p>
+      </div>
+      <div class="service-card" onclick="hubungiWhatsApp('Pagar Rumah')">
+        <div class="card-icon">🧱</div>
+        <h3>Pagar Rumah</h3>
+        <p>Pembuatan dan renovasi pagar</p>
+      </div>
+      <div class="service-card" onclick="hubungiWhatsApp('Carport')">
+        <div class="card-icon">🚗</div>
+        <h3>Carport</h3>
+        <p>Pembuatan dan renovasi carport</p>
+      </div>
+      <div class="service-card" onclick="hubungiWhatsApp('Teras Rumah')">
+        <div class="card-icon">🌿</div>
+        <h3>Teras Rumah</h3>
+        <p>Renovasi dan pembangunan teras</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- KATEGORI 4: LISTRIK & PLUMBING -->
+  <section class="services-group reveal">
+    <h2><span class="group-icon">⚡</span> LISTRIK & PLUMBING</h2>
+    <div class="services-grid">
+      <div class="service-card" onclick="hubungiWhatsApp('Instalasi Listrik')">
+        <div class="card-icon">⚡</div>
+        <h3>Instalasi Listrik</h3>
+        <p>Pemasangan dan perbaikan instalasi</p>
+      </div>
+      <div class="service-card" onclick="hubungiWhatsApp('Plumbing')">
+        <div class="card-icon">🚿</div>
+        <h3>Plumbing</h3>
+        <p>Pipa, kran, saluran air & kebocoran</p>
+      </div>
+      <div class="service-card" onclick="hubungiWhatsApp('Perbaikan Rumah')">
+        <div class="card-icon">🔧</div>
+        <h3>Perbaikan Rumah</h3>
+        <p>Berbagai pekerjaan perbaikan & maintenance</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="pwa-divider">
+
+  <!-- TOMBOL CTA UTAMA -->
+  <div class="cta-container reveal">
+    <a href="https://wa.me." class="btn-cta bg-primary" target="_blank">
+      <span>📞</span> HUBUNGI KAMI
+    </a>
+    <a href="https://wa.me." class="btn-cta bg-success" target="_blank">
+      <span>💬</span> KONSULTASI & SURVEY GRATIS
+    </a>
+  </div>
+          </main>
 
       <footer id="kontak">
         <div class="footer-box">
@@ -765,6 +1082,16 @@ main{
 
   function showAdminPanel() {
     alert('Selamat datang di panel admin! Di sini Anda bisa menghapus ulasan, serta mengunggah atau menghapus foto portofolio.');
+  }
+
+  function hubungiWhatsApp(namaLayanan) {
+  // Ganti angka 628XXXXXXXXXX dengan nomor WhatsApp bisnis Anda asli
+  const nomorWA = "628XXXXXXXXXX"; 
+  const pesan = `Halo Admin Renovasi Batam, saya tertarik dan ingin bertanya lebih lanjut mengenai layanan *${namaLayanan}* rumah di Batam.`;
+  const urlEksternal = `https://wa.me{nomorWA}?text=${encodeURIComponent(pesan)}`;
+  
+  window.open(urlEksternal, '_blank');
+ 
   }
   </script>
 </body>
